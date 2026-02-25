@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — SecureCyber Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root { --cyan:#00f5ff; --blue:#0055ff; --dark:#010913; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background-color:var(--dark);font-family:'Rajdhani',sans-serif;color:#b8d4f0;overflow-x:hidden;}
+    .cyber-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.04) 1px,transparent 1px);background-size:55px 55px;animation:gridBreath 10s ease-in-out infinite;}
+    @keyframes gridBreath{0%,100%{opacity:.5}50%{opacity:1}}
+    .radial-overlay{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 55% at 50% -10%,rgba(0,80,255,.18) 0%,transparent 65%),radial-gradient(ellipse 45% 35% at 85% 90%,rgba(0,245,255,.07) 0%,transparent 55%);}
+    nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(1,9,19,.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(0,245,255,.12);animation:navSlide .6s ease forwards;}
+    @keyframes navSlide{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+    .nav-logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.3rem;letter-spacing:3px;background:linear-gradient(90deg,#00f5ff,#0066ff,#00f5ff);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite;text-decoration:none;}
+    @keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+    .nav-link{font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:2px;color:#7daecf;text-decoration:none;padding:.4rem .8rem;border:1px solid transparent;transition:all .3s;position:relative;}
+    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--cyan);transform:scaleX(0);transition:transform .3s;}
+    .nav-link:hover,.nav-link.active{color:var(--cyan);border-color:rgba(0,245,255,.25);text-shadow:0 0 10px rgba(0,245,255,.6);}
+    .nav-link:hover::after,.nav-link.active::after{transform:scaleX(1);}
+    .nav-cta{font-family:'Orbitron',monospace;font-size:.68rem;letter-spacing:2px;color:#000;background:linear-gradient(135deg,#00f5ff,#0066ff);padding:.42rem 1.1rem;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all .3s;text-decoration:none;font-weight:700;}
+    .nav-cta:hover{box-shadow:0 0 22px rgba(0,245,255,.7);transform:translateY(-1px);}
+    .mobile-menu{display:none;}.mobile-menu.open{display:flex;}
+    #menu-toggle{display:none;background:none;border:none;cursor:pointer;}
+    @media(max-width:768px){#menu-toggle{display:block;}.desktop-nav{display:none;}.mobile-menu{flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(1,9,19,.97);border-bottom:1px solid rgba(0,245,255,.15);padding:1.5rem;gap:1rem;}}
+    section{position:relative;z-index:10;}
+    .section-label{font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:4px;color:var(--cyan);opacity:.65;margin-bottom:.75rem;}
+    .section-title{font-family:'Orbitron',monospace;font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:700;color:#e0f2ff;line-height:1.2;margin-bottom:1.2rem;}
+    .section-sub{font-size:1.02rem;color:#5a8aaa;max-width:620px;line-height:1.7;}
+    .gradient-text{background:linear-gradient(135deg,#00f5ff 0%,#4db8ff 40%,#0055ff 70%,#00f5ff 100%);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradMove 5s ease infinite;}
+    @keyframes gradMove{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
+    .btn-primary{font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:2px;color:#000;background:linear-gradient(135deg,#00f5ff,#0066ff);padding:.85rem 2.2rem;display:inline-block;text-decoration:none;font-weight:700;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .3s;}
+    .btn-primary:hover{box-shadow:0 0 35px rgba(0,245,255,.7);transform:translateY(-2px);}
+    .btn-secondary{font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:2px;color:var(--cyan);background:transparent;padding:.82rem 2.2rem;display:inline-block;text-decoration:none;font-weight:600;border:1px solid rgba(0,245,255,.4);clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .3s;}
+    .btn-secondary:hover{background:rgba(0,245,255,.08);border-color:var(--cyan);box-shadow:0 0 20px rgba(0,245,255,.25);transform:translateY(-2px);}
+
+    /* PAGE HERO */
+    .page-hero{padding:9rem 1.5rem 5rem;position:relative;}
+    .page-hero-badge{font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:3px;color:var(--cyan);border:1px solid rgba(0,245,255,.3);padding:.35rem 1rem;display:inline-block;margin-bottom:1.5rem;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);background:rgba(0,245,255,.04);}
+    .page-hero-title{font-family:'Orbitron',monospace;font-size:clamp(2rem,5vw,4rem);font-weight:900;line-height:1.15;margin-bottom:1.2rem;}
+    .page-hero-sub{font-size:1.1rem;color:#5a8aaa;max-width:680px;line-height:1.75;}
+    .scan-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);animation:scanDown 6s linear infinite;opacity:.4;pointer-events:none;}
+    @keyframes scanDown{0%{top:0;opacity:.8}90%{opacity:.3}100%{top:100%;opacity:0}}
+
+    /* PROBLEM CARDS */
+    .problem-section{padding:5rem 1.5rem;background:linear-gradient(180deg,rgba(0,20,55,.45) 0%,rgba(0,10,30,.25) 100%);border-top:1px solid rgba(0,245,255,.07);border-bottom:1px solid rgba(0,245,255,.07);}
+    .problem-card{background:rgba(0,12,35,.8);border:1px solid rgba(255,60,80,.15);padding:1.8rem;transition:all .35s;position:relative;overflow:hidden;}
+    .problem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#ff4060,#ff0040,transparent);transform:scaleX(0);transition:transform .4s;}
+    .problem-card:hover{border-color:rgba(255,60,80,.4);transform:translateY(-4px);box-shadow:0 15px 50px rgba(255,40,60,.08);}
+    .problem-card:hover::before{transform:scaleX(1);}
+    .problem-icon{font-size:1.9rem;margin-bottom:1rem;display:block;}
+    .problem-title{font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:1px;color:#ffaaaa;margin-bottom:.7rem;}
+    .problem-body{font-size:.9rem;color:#4a6a7a;line-height:1.65;}
+
+    /* FEATURE CARD */
+    .feature-card{background:rgba(0,12,35,.78);border:1px solid rgba(0,245,255,.1);padding:1.8rem;transition:all .35s;position:relative;overflow:hidden;backdrop-filter:blur(8px);}
+    .feature-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),#0066ff);transform:scaleX(0);transition:transform .4s;}
+    .feature-card:hover{border-color:rgba(0,245,255,.3);transform:translateY(-4px);box-shadow:0 15px 50px rgba(0,245,255,.1);}
+    .feature-card:hover::after{transform:scaleX(1);}
+    .feature-icon{font-size:1.9rem;margin-bottom:1.1rem;display:block;filter:drop-shadow(0 0 8px rgba(0,245,255,.4));}
+    .feature-title{font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;letter-spacing:1px;color:#d0eaff;margin-bottom:.7rem;}
+    .feature-body{font-size:.9rem;color:#4a7a9a;line-height:1.65;}
+
+    /* ENCRYPTION */
+    .encrypt-section{padding:6rem 1.5rem;}
+    .encrypt-card{background:rgba(0,12,35,.78);border:1px solid rgba(0,245,255,.1);padding:2rem;transition:all .35s;position:relative;overflow:hidden;}
+    .encrypt-card:hover{border-color:rgba(0,245,255,.3);box-shadow:0 0 40px rgba(0,245,255,.08);}
+    .encrypt-badge{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:3px;color:var(--cyan);border:1px solid rgba(0,245,255,.25);padding:.2rem .7rem;display:inline-block;margin-bottom:1rem;background:rgba(0,245,255,.03);}
+    .encrypt-title{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#d0eaff;margin-bottom:1rem;}
+    .encrypt-item{font-size:.9rem;color:#4a7a9a;line-height:1.7;padding-left:1.2rem;position:relative;margin-bottom:.4rem;}
+    .encrypt-item::before{content:'›';position:absolute;left:0;color:var(--cyan);}
+
+    /* ARCH LAYERS */
+    .arch-section{padding:5rem 1.5rem;background:linear-gradient(135deg,rgba(0,15,45,.78) 0%,rgba(0,5,20,.55) 100%);border-top:1px solid rgba(0,245,255,.07);border-bottom:1px solid rgba(0,245,255,.07);}
+    .arch-layer{display:flex;align-items:center;gap:1.5rem;padding:1.2rem 1.8rem;background:rgba(0,12,35,.8);border:1px solid rgba(0,245,255,.1);margin-bottom:.75rem;transition:all .35s;position:relative;overflow:hidden;}
+    .arch-layer::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--cyan),#0066ff);transform:scaleY(0);transition:transform .4s;}
+    .arch-layer:hover{border-color:rgba(0,245,255,.3);transform:translateX(6px);box-shadow:0 0 30px rgba(0,245,255,.07);}
+    .arch-layer:hover::before{transform:scaleY(1);}
+    .arch-num{font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;color:rgba(0,245,255,.25);flex-shrink:0;width:2.5rem;}
+    .arch-name{font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#d0eaff;margin-bottom:.3rem;}
+    .arch-desc{font-size:.88rem;color:#4a7a9a;}
+
+    /* INNOVATIONS */
+    .innovations-section{padding:6rem 1.5rem;}
+    .innov-card{background:rgba(0,12,35,.78);border:1px solid rgba(0,245,255,.1);padding:2rem;transition:all .35s;position:relative;overflow:hidden;height:100%;}
+    .innov-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#0066ff,var(--cyan));transform:scaleX(0);transition:transform .4s;}
+    .innov-card:hover{border-color:rgba(0,245,255,.3);transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,245,255,.1);}
+    .innov-card:hover::after{transform:scaleX(1);}
+    .innov-icon{font-size:2.4rem;margin-bottom:1.2rem;display:block;filter:drop-shadow(0 0 10px rgba(0,245,255,.45));}
+    .innov-title{font-family:'Orbitron',monospace;font-size:.88rem;font-weight:700;letter-spacing:1px;color:#d0eaff;margin-bottom:.8rem;}
+    .innov-body{font-size:.9rem;color:#4a7a9a;line-height:1.65;}
+
+    /* WHO BENEFITS */
+    .benefits-section{padding:6rem 1.5rem;background:linear-gradient(180deg,rgba(0,20,55,.45) 0%,rgba(0,10,30,.25) 100%);border-top:1px solid rgba(0,245,255,.07);border-bottom:1px solid rgba(0,245,255,.07);}
+    .benefit-card{background:rgba(0,12,35,.78);border:1px solid rgba(0,245,255,.1);padding:1.8rem;transition:all .35s;position:relative;}
+    .benefit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);transform:scaleX(0);transition:transform .4s;}
+    .benefit-card:hover{border-color:rgba(0,245,255,.3);transform:translateY(-4px);box-shadow:0 10px 40px rgba(0,245,255,.08);}
+    .benefit-card:hover::before{transform:scaleX(1);}
+    .benefit-icon{font-size:2rem;margin-bottom:1rem;display:block;}
+    .benefit-title{font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;color:#d0eaff;margin-bottom:.7rem;}
+    .benefit-body{font-size:.9rem;color:#4a7a9a;line-height:1.65;}
+
+    /* VISION */
+    .vision-section{padding:6rem 1.5rem;}
+    .vision-card{background:rgba(0,12,35,.78);border:1px solid rgba(0,245,255,.1);padding:2rem;text-align:center;transition:all .35s;}
+    .vision-card:hover{border-color:rgba(0,245,255,.3);transform:translateY(-4px);box-shadow:0 15px 50px rgba(0,245,255,.08);}
+    .vision-icon{font-size:2.5rem;margin-bottom:1.2rem;display:block;filter:drop-shadow(0 0 10px rgba(0,245,255,.45));}
+    .vision-title{font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#d0eaff;margin-bottom:.7rem;}
+    .vision-body{font-size:.9rem;color:#4a7a9a;line-height:1.65;}
+    .cta-section{padding:7rem 1.5rem;text-align:center;position:relative;}
+    .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(0,245,255,.06) 0%,transparent 70%);pointer-events:none;}
+    .cta-title{font-family:'Orbitron',monospace;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;color:#e0f2ff;margin-bottom:1.2rem;}
+    .cta-sub{font-size:1.05rem;color:#5a8aaa;max-width:540px;margin:0 auto 2.5rem;line-height:1.7;}
+
+    /* FOOTER */
+    footer{background:rgba(0,5,15,.95);border-top:1px solid rgba(0,245,255,.1);padding:3.5rem 1.5rem 2rem;}
+    .footer-logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.2rem;letter-spacing:3px;background:linear-gradient(90deg,#00f5ff,#0066ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.6rem;}
+    .footer-tagline{font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:2px;color:rgba(0,245,255,.35);margin-bottom:1.3rem;}
+    .footer-link{color:#3a6a8a;text-decoration:none;font-size:.88rem;transition:color .2s;display:block;margin-bottom:.5rem;}
+    .footer-link:hover{color:var(--cyan);}
+    .footer-heading{font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:3px;color:rgba(0,245,255,.45);margin-bottom:1.1rem;text-transform:uppercase;}
+    .footer-bottom{border-top:1px solid rgba(0,245,255,.07);padding-top:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+    .footer-copy{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:rgba(0,245,255,.22);letter-spacing:1px;}
+    .status-dot{width:7px;height:7px;border-radius:50%;background:#00f5ff;animation:statusPulse 2s ease-in-out infinite;display:inline-block;}
+    @keyframes statusPulse{0%,100%{box-shadow:0 0 4px #00f5ff}50%{box-shadow:0 0 12px #00f5ff,0 0 20px rgba(0,245,255,.5)}}
+    .fade-in{opacity:0;transform:translateY(26px);animation:fadeUp .7s ease forwards;}
+    .fade-in:nth-child(1){animation-delay:.05s}.fade-in:nth-child(2){animation-delay:.15s}.fade-in:nth-child(3){animation-delay:.25s}.fade-in:nth-child(4){animation-delay:.35s}.fade-in:nth-child(5){animation-delay:.45s}.fade-in:nth-child(6){animation-delay:.55s}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+    .hero-fade{opacity:0;animation:fadeUp .9s ease forwards;}
+    .hero-fade:nth-child(1){animation-delay:.2s}.hero-fade:nth-child(2){animation-delay:.45s}.hero-fade:nth-child(3){animation-delay:.65s}
+  </style>
+</head>
+<body>
+<div class="cyber-grid"></div>
+<div class="radial-overlay"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+    <a href="index.html" class="nav-logo">SECURECYBER</a>
+    <div class="desktop-nav flex items-center gap-1">
+      <a href="index.html" class="nav-link">HOME</a>
+      <a href="about.html" class="nav-link active">ABOUT</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+      <a href="contact.html" class="nav-cta ml-4">REPORT FRAUD</a>
+    </div>
+    <button id="menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open')" aria-label="Menu">
+      <svg width="24" height="24" fill="none" stroke="#00f5ff" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="mobile-nav" class="mobile-menu">
+    <a href="index.html" class="nav-link">HOME</a>
+    <a href="about.html" class="nav-link active">ABOUT</a>
+    <a href="contact.html" class="nav-link">CONTACT</a>
+    <a href="contact.html" class="nav-cta self-start mt-2">REPORT FRAUD</a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="scan-line"></div>
+  <div class="max-w-6xl mx-auto">
+    <div class="hero-fade"><span class="page-hero-badge">// PLATFORM INTELLIGENCE BRIEFING</span></div>
+    <div class="hero-fade">
+      <h1 class="page-hero-title">
+        The Platform That <span class="gradient-text">Fights Back</span><br>Without Exposing You
+      </h1>
+    </div>
+    <div class="hero-fade">
+      <p class="page-hero-sub">The digital age has created unprecedented opportunities for cybercrime, yet our reporting infrastructure remains dangerously outdated. Victims face an impossible choice: stay silent or risk further exposure. SecureCyber changes that equation forever.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM STATEMENT -->
+<section class="problem-section">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="section-label">// THE CRISIS</p>
+      <h2 class="section-title">The Crisis in Cyber Fraud <span class="gradient-text">Reporting</span></h2>
+      <p class="section-sub mx-auto text-center">Traditional reporting infrastructure remains dangerously outdated. Victims face an impossible choice: stay silent or risk further exposure.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="problem-card fade-in">
+        <span class="problem-icon">😨</span>
+        <div class="problem-title">Fear of Exposure</div>
+        <div class="problem-body">Victims hesitate to report cybercrime due to legitimate fears about identity exposure and potential retaliation from perpetrators.</div>
+      </div>
+      <div class="problem-card fade-in">
+        <span class="problem-icon">🪪</span>
+        <div class="problem-title">Identity Vulnerability</div>
+        <div class="problem-body">Traditional reporting platforms require extensive personal information, ironically exposing victims to additional privacy risks.</div>
+      </div>
+      <div class="problem-card fade-in">
+        <span class="problem-icon">🗑️</span>
+        <div class="problem-title">Reports Disappear</div>
+        <div class="problem-body">Fraud complaints frequently get lost in bureaucratic systems, remain untracked, or are simply ignored without accountability.</div>
+      </div>
+      <div class="problem-card fade-in">
+        <span class="problem-icon">📡</span>
+        <div class="problem-title">Data Exploitation</div>
+        <div class="problem-body">Social platforms collect excessive personal data, creating new vulnerabilities rather than providing safe spaces for fraud discussion.</div>
+      </div>
+    </div>
+    <!-- stats row -->
+    <div class="grid md:grid-cols-3 gap-5 mt-10">
+      <div class="feature-card fade-in">
+        <div style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#00f5ff,#4db8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.6rem;">Only 32%</div>
+        <div class="feature-title">Report Scams (UK Data)</div>
+        <div class="feature-body">Just 13% of fraud cases are reported to police in developed nations. In the US, only 2% report losses under $1,000.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#00f5ff,#4db8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.6rem;">56% Silent</div>
+        <div class="feature-title">Victims Never Speak Up</div>
+        <div class="feature-body">Of cybercrime victims in research studies remain completely silent. 29% feel reporting would make no difference.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#00f5ff,#4db8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.6rem;">2.3× Hidden</div>
+        <div class="feature-title">True Scale of Losses</div>
+        <div class="feature-body">Actual fraud losses are estimated 2.3× higher than reported figures, indicating a vast hidden problem across all nations.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENCRYPTION & SECURITY ARCHITECTURE -->
+<section class="encrypt-section">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="section-label">// ENCRYPTION ARCHITECTURE</p>
+      <h2 class="section-title">Military-Grade <span class="gradient-text">Encryption</span></h2>
+      <p class="section-sub mx-auto text-center">Our security architecture is built on the principle that we should never have access to information we don't absolutely need. This isn't just privacy protection — it's privacy by design.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 mb-10">
+      <div class="encrypt-card fade-in">
+        <span class="encrypt-badge">AES-256</span>
+        <div class="encrypt-title">Advanced Encryption Standard</div>
+        <div class="encrypt-item">Adopted by the US federal government & approved by NSA for classified information</div>
+        <div class="encrypt-item">256-bit key length with 14 rounds of encryption</div>
+        <div class="encrypt-item">Requires 2<sup>256</sup> possible keys to brute force — computationally impossible</div>
+        <div class="encrypt-item">Transforms readable data into unreadable ciphertext</div>
+        <div class="encrypt-item">Industry standard for financial institutions and government agencies</div>
+      </div>
+      <div class="encrypt-card fade-in">
+        <span class="encrypt-badge">RSA-4096</span>
+        <div class="encrypt-title">RSA-4096 Key Exchange</div>
+        <div class="encrypt-item">Asymmetric encryption for secure key distribution</div>
+        <div class="encrypt-item">4096-bit keys provide quantum-resistant security</div>
+        <div class="encrypt-item">Enables secure communication without pre-shared keys</div>
+        <div class="encrypt-item">Used by banks and military installations worldwide</div>
+      </div>
+      <div class="encrypt-card fade-in">
+        <span class="encrypt-badge">PFS</span>
+        <div class="encrypt-title">Perfect Forward Secrecy</div>
+        <div class="encrypt-item">Each session uses unique, freshly generated encryption keys</div>
+        <div class="encrypt-item">Even if one key is compromised, past communications remain fully secure</div>
+        <div class="encrypt-item">Prevents mass decryption of historical data in case of breach</div>
+      </div>
+      <div class="encrypt-card fade-in">
+        <span class="encrypt-badge">ZKA</span>
+        <div class="encrypt-title">Zero-Knowledge Architecture</div>
+        <div class="encrypt-item">SecureCyber never stores any decryption keys</div>
+        <div class="encrypt-item">Users alone control access to their data — always</div>
+        <div class="encrypt-item">Even SecureCyber cannot access user information</div>
+        <div class="encrypt-item">Similar to technology used by Signal, ProtonMail</div>
+      </div>
+    </div>
+
+    <!-- Architecture Layers -->
+    <div class="max-w-3xl mx-auto">
+      <p class="section-label text-center mb-6">// 5-LAYER SECURITY STACK</p>
+      <div class="arch-layer fade-in"><div class="arch-num">01</div><div><div class="arch-name">Zero-Knowledge Architecture</div><div class="arch-desc">We can never access what we don't hold. Users own their data entirely.</div></div></div>
+      <div class="arch-layer fade-in"><div class="arch-num">02</div><div><div class="arch-name">End-to-End Encryption</div><div class="arch-desc">AES-256 + RSA-4096 secure every message, report, and file transfer.</div></div></div>
+      <div class="arch-layer fade-in"><div class="arch-num">03</div><div><div class="arch-name">No Tracking Protocols</div><div class="arch-desc">Zero IP logging, no cookie storage, no digital fingerprinting of any kind.</div></div></div>
+      <div class="arch-layer fade-in"><div class="arch-num">04</div><div><div class="arch-name">Self-Destruct Data</div><div class="arch-desc">Auto-deletion protocols ensure data vanishes when no longer needed.</div></div></div>
+      <div class="arch-layer fade-in"><div class="arch-num">05</div><div><div class="arch-name">Hashed Identifiers Only</div><div class="arch-desc">No plaintext identifiers ever stored. Distributed storage, no metadata retention.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANCED SECURITY ARSENAL -->
+<section style="padding:6rem 1.5rem;background:linear-gradient(135deg,rgba(0,15,45,.78) 0%,rgba(0,5,20,.55) 100%);border-top:1px solid rgba(0,245,255,.07);border-bottom:1px solid rgba(0,245,255,.07);">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="section-label">// SECURITY CAPABILITIES</p>
+      <h2 class="section-title">Advanced Security <span class="gradient-text">Arsenal</span></h2>
+      <p class="section-sub mx-auto text-center">Beyond encryption, SecureCyber deploys a full arsenal of cutting-edge privacy and threat-detection technologies.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="feature-card fade-in">
+        <span class="feature-icon">🤖</span>
+        <div class="feature-title">AI Fraud Detection</div>
+        <div class="feature-body">Machine learning algorithms analyze patterns across millions of reports to identify emerging threats and alert the community instantly.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">🌑</span>
+        <div class="feature-title">Dark Web Scanner</div>
+        <div class="feature-body">Continuous monitoring of dark web marketplaces and forums to detect when your information appears in compromised databases.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">🛡️</span>
+        <div class="feature-title">User Privacy Shield</div>
+        <div class="feature-body">No IP logging, no cookie tracking, no digital fingerprinting. Browse and report with complete confidence in your anonymity.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">📰</span>
+        <div class="feature-title">SecureFeed</div>
+        <div class="feature-body">A private social feed where community members share experiences through fully encrypted posts that maintain total anonymity.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVOLUTIONARY INNOVATIONS -->
+<section class="innovations-section">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="section-label">// GROUNDBREAKING FEATURES</p>
+      <h2 class="section-title">Revolutionary <span class="gradient-text">Innovations</span></h2>
+      <p class="section-sub mx-auto text-center">SecureCyber introduces groundbreaking features that redefine privacy-first technology — built for a world where identity protection is non-negotiable.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="innov-card fade-in">
+        <span class="innov-icon">👻</span>
+        <div class="innov-title">Ghost Mode</div>
+        <div class="innov-body">Post, comment, and chat without leaving any metadata trail. Not even timestamps or session data are retained. Disappear completely after every interaction.</div>
+      </div>
+      <div class="innov-card fade-in">
+        <span class="innov-icon">💣</span>
+        <div class="innov-title">Secret Rooms</div>
+        <div class="innov-body">Time-limited encrypted chat spaces that automatically self-destruct, leaving zero forensic evidence behind. No logs, no traces, no history.</div>
+      </div>
+      <div class="innov-card fade-in">
+        <span class="innov-icon">🎭</span>
+        <div class="innov-title">DeepFake Detector</div>
+        <div class="innov-body">AI-powered tool identifies fake videos, spoofed calls, and sophisticated phishing attempts in real-time, protecting victims from evolving threats.</div>
+      </div>
+      <div class="innov-card fade-in">
+        <span class="innov-icon">🏛️</span>
+        <div class="innov-title">Report-to-Gov Gateway</div>
+        <div class="innov-body">Forward verified reports directly to law enforcement and regulatory authorities without ever revealing your identity to officials — anonymous accountability.</div>
+      </div>
+      <div class="innov-card fade-in">
+        <span class="innov-icon">🔒</span>
+        <div class="innov-title">SecureVault Evidence Storage</div>
+        <div class="innov-body">Encrypted storage for screenshots, recordings, documents, and other evidence with military-grade protection and zero-knowledge architecture.</div>
+      </div>
+      <div class="innov-card fade-in">
+        <span class="innov-icon">🎤</span>
+        <div class="innov-title">Voice Masking Technology</div>
+        <div class="innov-body">Real-time voice obscuring in audio rooms allows victims to share experiences verbally while maintaining complete anonymity throughout.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO BENEFITS -->
+<section class="benefits-section">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="section-label">// PLATFORM BENEFICIARIES</p>
+      <h2 class="section-title">Who <span class="gradient-text">Benefits</span> from SecureCyber</h2>
+      <p class="section-sub mx-auto text-center">SecureCyber is built to serve every individual and institution that stands to gain from safer, anonymous fraud reporting infrastructure.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="benefit-card fade-in">
+        <span class="benefit-icon">🧑‍💼</span>
+        <div class="benefit-title">Fraud Victims</div>
+        <div class="benefit-body">Report UPI scams, courier fraud, fake job scams, sextortion, and other cybercrimes without fear of exposure or retaliation. Recover, speak safely, and contribute to pattern detection.</div>
+      </div>
+      <div class="benefit-card fade-in">
+        <span class="benefit-icon">📢</span>
+        <div class="benefit-title">Whistleblowers</div>
+        <div class="benefit-body">Expose organizational fraud and corruption with protection that goes beyond traditional whistleblower systems. Speak truth to power — anonymously.</div>
+      </div>
+      <div class="benefit-card fade-in">
+        <span class="benefit-icon">🔬</span>
+        <div class="benefit-title">Security Professionals</div>
+        <div class="benefit-body">Cybersecurity experts and ethical hackers can collaborate on threat intelligence without compromising operational security or exposing identities.</div>
+      </div>
+      <div class="benefit-card fade-in">
+        <span class="benefit-icon">🏛️</span>
+        <div class="benefit-title">Government Agencies</div>
+        <div class="benefit-body">Access anonymized fraud data to identify patterns and coordinate responses without privacy violations. Estimated 40–60% improvement in case resolution rates.</div>
+      </div>
+      <div class="benefit-card fade-in">
+        <span class="benefit-icon">🎓</span>
+        <div class="benefit-title">Educators</div>
+        <div class="benefit-body">Digital security professionals teaching fraud prevention can access real-world case studies while protecting victim privacy completely.</div>
+      </div>
+      <div class="benefit-card fade-in">
+        <span class="benefit-icon">🤲</span>
+        <div class="benefit-title">Community Volunteers</div>
+        <div class="benefit-body">Cyber safety advocates can support victims and spread awareness without ever handling sensitive personal information or compromising anyone's identity.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION -->
+<section class="vision-section">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="section-label">// STRATEGIC VISION</p>
+      <h2 class="section-title">A Safer <span class="gradient-text">Digital Future</span></h2>
+      <p class="section-sub mx-auto text-center">Your Voice. Your Privacy. Your Safety. Join us in revolutionizing how the world responds to cybercrime — without compromising the privacy of those who speak up.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
+      <div class="vision-card fade-in">
+        <span class="vision-icon">🌐</span>
+        <div class="vision-title">Trusted Ecosystem</div>
+        <div class="vision-body">Building a globally recognized platform for anonymous cyber-fraud reporting that victims, law enforcement, and governments can trust.</div>
+      </div>
+      <div class="vision-card fade-in">
+        <span class="vision-icon">🚔</span>
+        <div class="vision-title">Law Enforcement Integration</div>
+        <div class="vision-body">Seamless identity-free reporting to police and cybercrime cells worldwide — bridging the gap between victims and justice.</div>
+      </div>
+      <div class="vision-card fade-in">
+        <span class="vision-icon">🗺️</span>
+        <div class="vision-title">Global Fraud Mapping</div>
+        <div class="vision-body">AI-powered real-time visualization of emerging fraud trends across continents to enable proactive threat intelligence and prevention.</div>
+      </div>
+      <div class="vision-card fade-in">
+        <span class="vision-icon">🇮🇳</span>
+        <div class="vision-title">Digital India Leadership</div>
+        <div class="vision-body">Making India a global leader in privacy-first cybersecurity innovation — in full compliance with the Digital India initiative.</div>
+      </div>
+    </div>
+    <!-- Impact ROI -->
+    <div class="text-center mb-10">
+      <p class="section-label">// PROJECTED IMPACT</p>
+      <h2 class="section-title">Economic <span class="gradient-text">Impact & ROI</span></h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="feature-card fade-in">
+        <span class="feature-icon">💰</span>
+        <div class="feature-title">₹5,000–10,000 Cr Recoverable</div>
+        <div class="feature-body">Potential to recover ₹5,000–10,000 crore annually through better reporting infrastructure and faster fraud pattern identification.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">📉</span>
+        <div class="feature-title">30–50% Loss Reduction</div>
+        <div class="feature-body">Reduce cybercrime losses by 30–50% through early intervention powered by AI-driven pattern detection across millions of anonymized reports.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">📈</span>
+        <div class="feature-title">40–60% Better Resolutions</div>
+        <div class="feature-body">Estimated 40–60% improvement in case resolution rates for law enforcement through AI-powered categorization and anonymized fraud intelligence data.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="max-w-3xl mx-auto relative z-10">
+    <p class="section-label text-center">// JOIN THE MOVEMENT</p>
+    <h2 class="cta-title">Ready to <span class="gradient-text">Report Safely?</span></h2>
+    <p class="cta-sub">Every report strengthens our collective defence against cybercrime. Your anonymity is guaranteed. Your voice matters. The time to act is now.</p>
+    <div class="flex flex-wrap justify-center gap-5">
+      <a href="contact.html" class="btn-primary">REPORT FRAUD NOW</a>
+      <a href="index.html" class="btn-secondary">BACK TO HOME</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-4 gap-10 pb-6">
+      <div class="md:col-span-2">
+        <div class="footer-logo">SECURECYBER</div>
+        <div class="footer-tagline">// ANONYMOUS · SAFE · ENCRYPTED</div>
+        <p style="font-size:.88rem;color:#2e5a78;line-height:1.75;max-width:360px;">A next-generation platform for private cyber-fraud reporting. Built on the principle that speaking up should never mean giving up your privacy.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigation</div>
+        <a href="index.html" class="footer-link">Home</a>
+        <a href="about.html" class="footer-link">About</a>
+        <a href="contact.html" class="footer-link">Contact</a>
+        <a href="contact.html" class="footer-link">Report Fraud</a>
+      </div>
+      <div>
+        <div class="footer-heading">Security Stack</div>
+        <span class="footer-link" style="cursor:default;">AES-256 Encryption</span>
+        <span class="footer-link" style="cursor:default;">RSA-4096 Key Exchange</span>
+        <span class="footer-link" style="cursor:default;">Zero-Knowledge Architecture</span>
+        <span class="footer-link" style="cursor:default;">GDPR Compliant</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 SECURECYBER — ALL RIGHTS RESERVED</div>
+      <div class="flex items-center gap-2"><span class="status-dot"></span><span class="footer-copy">ALL SYSTEMS OPERATIONAL</span></div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

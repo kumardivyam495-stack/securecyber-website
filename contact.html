@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — SecureCyber Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root { --cyan:#00f5ff; --blue:#0055ff; --dark:#010913; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background-color:var(--dark);font-family:'Rajdhani',sans-serif;color:#b8d4f0;overflow-x:hidden;}
+    .cyber-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,245,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.04) 1px,transparent 1px);background-size:55px 55px;animation:gridBreath 10s ease-in-out infinite;}
+    @keyframes gridBreath{0%,100%{opacity:.5}50%{opacity:1}}
+    .radial-overlay{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 55% at 50% -10%,rgba(0,80,255,.18) 0%,transparent 65%);}
+    nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(1,9,19,.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(0,245,255,.12);animation:navSlide .6s ease forwards;}
+    @keyframes navSlide{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+    .nav-logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.3rem;letter-spacing:3px;background:linear-gradient(90deg,#00f5ff,#0066ff,#00f5ff);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite;text-decoration:none;}
+    @keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+    .nav-link{font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:2px;color:#7daecf;text-decoration:none;padding:.4rem .8rem;border:1px solid transparent;transition:all .3s;position:relative;}
+    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--cyan);transform:scaleX(0);transition:transform .3s;}
+    .nav-link:hover,.nav-link.active{color:var(--cyan);border-color:rgba(0,245,255,.25);text-shadow:0 0 10px rgba(0,245,255,.6);}
+    .nav-link:hover::after,.nav-link.active::after{transform:scaleX(1);}
+    .nav-cta{font-family:'Orbitron',monospace;font-size:.68rem;letter-spacing:2px;color:#000;background:linear-gradient(135deg,#00f5ff,#0066ff);padding:.42rem 1.1rem;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all .3s;text-decoration:none;font-weight:700;}
+    .nav-cta:hover{box-shadow:0 0 22px rgba(0,245,255,.7);transform:translateY(-1px);}
+    .mobile-menu{display:none;}.mobile-menu.open{display:flex;}
+    #menu-toggle{display:none;background:none;border:none;cursor:pointer;}
+    @media(max-width:768px){#menu-toggle{display:block;}.desktop-nav{display:none;}.mobile-menu{flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(1,9,19,.97);border-bottom:1px solid rgba(0,245,255,.15);padding:1.5rem;gap:1rem;}}
+    section{position:relative;z-index:10;}
+    .gradient-text{background:linear-gradient(135deg,#00f5ff 0%,#4db8ff 40%,#0055ff 70%,#00f5ff 100%);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradMove 5s ease infinite;}
+    @keyframes gradMove{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
+    .section-label{font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:4px;color:var(--cyan);opacity:.65;margin-bottom:.75rem;}
+    .section-title{font-family:'Orbitron',monospace;font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:700;color:#e0f2ff;line-height:1.2;margin-bottom:1.2rem;}
+    .page-hero{padding:9rem 1.5rem 4rem;position:relative;}
+    .scan-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);animation:scanDown 6s linear infinite;opacity:.4;pointer-events:none;}
+    @keyframes scanDown{0%{top:0;opacity:.8}90%{opacity:.3}100%{top:100%;opacity:0}}
+    .page-hero-badge{font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:3px;color:var(--cyan);border:1px solid rgba(0,245,255,.3);padding:.35rem 1rem;display:inline-block;margin-bottom:1.5rem;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);background:rgba(0,245,255,.04);}
+    .page-hero-title{font-family:'Orbitron',monospace;font-size:clamp(2rem,5vw,4rem);font-weight:900;line-height:1.15;margin-bottom:1.2rem;}
+    .page-hero-sub{font-size:1.1rem;color:#5a8aaa;max-width:660px;line-height:1.75;}
+    .contact-section{padding:2rem 1.5rem 6rem;}
+    .form-panel{background:rgba(0,12,35,.82);border:1px solid rgba(0,245,255,.13);padding:2.5rem;backdrop-filter:blur(12px);position:relative;overflow:hidden;}
+    .form-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+    .form-heading{font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:700;color:#e0f2ff;margin-bottom:.5rem;}
+    .form-sub{font-size:.93rem;color:#4a7a9a;margin-bottom:2rem;line-height:1.6;}
+    .form-label{font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:3px;color:rgba(0,245,255,.5);display:block;margin-bottom:.5rem;text-transform:uppercase;}
+    .form-input{width:100%;background:rgba(0,10,30,.8);border:1px solid rgba(0,245,255,.15);color:#d0eaff;font-family:'Rajdhani',sans-serif;font-size:1rem;padding:.85rem 1.1rem;outline:none;transition:all .3s ease;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);}
+    .form-input:focus{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,245,255,.15),inset 0 0 10px rgba(0,245,255,.04);color:#fff;}
+    .form-input::placeholder{color:#2a5a78;}
+    textarea.form-input{clip-path:none;resize:vertical;min-height:140px;border-radius:2px;}
+    .form-select{width:100%;background:rgba(0,10,30,.8);border:1px solid rgba(0,245,255,.15);color:#d0eaff;font-family:'Rajdhani',sans-serif;font-size:1rem;padding:.85rem 1.1rem;outline:none;transition:all .3s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);cursor:pointer;appearance:none;}
+    .form-select:focus{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,245,255,.15);}
+    .form-select option{background:#010913;color:#d0eaff;}
+    .submit-btn{font-family:'Orbitron',monospace;font-size:.78rem;letter-spacing:2px;color:#000;background:linear-gradient(135deg,#00f5ff,#0066ff);padding:1rem 3rem;font-weight:700;cursor:pointer;border:none;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);transition:all .35s;position:relative;overflow:hidden;width:100%;margin-top:.5rem;}
+    .submit-btn:hover{box-shadow:0 0 40px rgba(0,245,255,.65);transform:translateY(-2px);}
+    .info-card{background:rgba(0,12,35,.8);border:1px solid rgba(0,245,255,.1);padding:1.8rem;transition:all .35s;position:relative;overflow:hidden;}
+    .info-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--cyan),#0066ff);transform:scaleY(0);transition:transform .4s;}
+    .info-card:hover{border-color:rgba(0,245,255,.3);transform:translateX(4px);}
+    .info-card:hover::after{transform:scaleY(1);}
+    .info-icon{font-size:1.8rem;margin-bottom:1rem;display:block;}
+    .info-title{font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;color:#d0eaff;margin-bottom:.6rem;letter-spacing:1px;}
+    .info-body{font-size:.88rem;color:#4a7a9a;line-height:1.6;}
+    .info-value{font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--cyan);margin-top:.5rem;}
+    .guarantee-strip{background:rgba(0,10,30,.8);border:1px solid rgba(0,245,255,.1);padding:1.2rem 2rem;margin-bottom:2.5rem;}
+    .guarantee-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;animation:gDot 2.5s ease-in-out infinite;}
+    @keyframes gDot{0%,100%{box-shadow:0 0 4px var(--cyan)}50%{box-shadow:0 0 12px var(--cyan)}}
+    .guarantee-text{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:1px;color:rgba(0,245,255,.6);}
+    .threat-tag{font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:1px;padding:.35rem .8rem;border:1px solid rgba(255,80,100,.22);background:rgba(255,40,60,.03);color:rgba(255,120,140,.65);transition:all .3s;cursor:default;}
+    .threat-tag:hover{border-color:rgba(255,80,100,.45);color:#ff8090;}
+    .success-msg{display:none;background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.3);padding:1.5rem;text-align:center;margin-top:1.5rem;}
+    .success-msg.show{display:block;}
+    .step-box{width:3.5rem;height:3.5rem;background:rgba(0,12,35,.9);border:1px solid rgba(0,245,255,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--cyan);}
+    footer{background:rgba(0,5,15,.95);border-top:1px solid rgba(0,245,255,.1);padding:3.5rem 1.5rem 2rem;}
+    .footer-logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.2rem;letter-spacing:3px;background:linear-gradient(90deg,#00f5ff,#0066ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.6rem;}
+    .footer-tagline{font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:2px;color:rgba(0,245,255,.35);margin-bottom:1.3rem;}
+    .footer-link{color:#3a6a8a;text-decoration:none;font-size:.88rem;transition:color .2s;display:block;margin-bottom:.5rem;}
+    .footer-link:hover{color:var(--cyan);}
+    .footer-heading{font-family:'Orbitron',monospace;font-size:.62rem;letter-spacing:3px;color:rgba(0,245,255,.45);margin-bottom:1.1rem;text-transform:uppercase;}
+    .footer-bottom{border-top:1px solid rgba(0,245,255,.07);padding-top:1.5rem;margin-top:2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+    .footer-copy{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:rgba(0,245,255,.22);letter-spacing:1px;}
+    .status-dot{width:7px;height:7px;border-radius:50%;background:#00f5ff;animation:statusPulse 2s ease-in-out infinite;display:inline-block;}
+    @keyframes statusPulse{0%,100%{box-shadow:0 0 4px #00f5ff}50%{box-shadow:0 0 12px #00f5ff,0 0 20px rgba(0,245,255,.5)}}
+    .fade-in{opacity:0;transform:translateY(24px);animation:fadeUp .7s ease forwards;}
+    .fade-in:nth-child(1){animation-delay:.05s}.fade-in:nth-child(2){animation-delay:.15s}.fade-in:nth-child(3){animation-delay:.25s}.fade-in:nth-child(4){animation-delay:.35s}.fade-in:nth-child(5){animation-delay:.45s}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+    .hero-fade{opacity:0;animation:fadeUp .9s ease forwards;}
+    .hero-fade:nth-child(1){animation-delay:.2s}.hero-fade:nth-child(2){animation-delay:.45s}.hero-fade:nth-child(3){animation-delay:.65s}
+  </style>
+</head>
+<body>
+<div class="cyber-grid"></div>
+<div class="radial-overlay"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+    <a href="index.html" class="nav-logo">SECURECYBER</a>
+    <div class="desktop-nav flex items-center gap-1">
+      <a href="index.html" class="nav-link">HOME</a>
+      <a href="about.html" class="nav-link">ABOUT</a>
+      <a href="contact.html" class="nav-link active">CONTACT</a>
+      <a href="contact.html" class="nav-cta ml-4">REPORT FRAUD</a>
+    </div>
+    <button id="menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open')" aria-label="Menu">
+      <svg width="24" height="24" fill="none" stroke="#00f5ff" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="mobile-nav" class="mobile-menu">
+    <a href="index.html" class="nav-link">HOME</a>
+    <a href="about.html" class="nav-link">ABOUT</a>
+    <a href="contact.html" class="nav-link active">CONTACT</a>
+    <a href="contact.html" class="nav-cta self-start mt-2">REPORT FRAUD</a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="scan-line"></div>
+  <div class="max-w-6xl mx-auto">
+    <div class="hero-fade"><span class="page-hero-badge">// SECURE COMMUNICATION CHANNEL</span></div>
+    <div class="hero-fade">
+      <h1 class="page-hero-title">Report Fraud.<br><span class="gradient-text">Stay Anonymous.</span></h1>
+    </div>
+    <div class="hero-fade">
+      <p class="page-hero-sub">Your identity is never captured, logged, or retained. Every report is encrypted end-to-end the moment you submit it. The digital world needs more voices — we make it safe for yours to be heard.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Guarantee Strip -->
+    <div class="guarantee-strip">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="flex items-center gap-3"><span class="guarantee-dot"></span><span class="guarantee-text">IDENTITY NEVER STORED OR LOGGED</span></div>
+        <div class="flex items-center gap-3"><span class="guarantee-dot"></span><span class="guarantee-text">AES-256 ENCRYPTED TRANSMISSION</span></div>
+        <div class="flex items-center gap-3"><span class="guarantee-dot"></span><span class="guarantee-text">ZERO-KNOWLEDGE ARCHITECTURE</span></div>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-10">
+
+      <!-- FORM -->
+      <div class="lg:col-span-3 fade-in">
+        <div class="form-panel">
+          <div class="form-heading">Submit a Secure Report</div>
+          <div class="form-sub">Report cyber fraud, request assistance, or get in touch with the SecureCyber team. All submissions are handled with military-grade privacy protocols.</div>
+
+          <form id="contactForm" onsubmit="handleSubmit(event)" novalidate>
+            <div class="grid sm:grid-cols-2 gap-5 mb-5">
+              <div>
+                <label class="form-label">Full Name (Optional)</label>
+                <input type="text" class="form-input" placeholder="Anonymous if preferred" autocomplete="off" />
+              </div>
+              <div>
+                <label class="form-label">Email (Optional)</label>
+                <input type="email" class="form-input" placeholder="For case updates only" autocomplete="off" />
+              </div>
+            </div>
+
+            <div class="mb-5">
+              <label class="form-label">Fraud Type</label>
+              <div style="position:relative;">
+                <select class="form-select">
+                  <option value="" disabled selected>— Select fraud category —</option>
+                  <option>UPI / Payment Fraud</option>
+                  <option>Fake Job Scam</option>
+                  <option>Investment / Trading Scam</option>
+                  <option>Sextortion / Blackmail</option>
+                  <option>Phishing / Identity Theft</option>
+                  <option>Courier / Delivery Fraud</option>
+                  <option>Dark Web / Data Breach</option>
+                  <option>Other Cybercrime</option>
+                </select>
+                <span style="position:absolute;right:1rem;top:50%;transform:translateY(-50%);color:var(--cyan);pointer-events:none;font-size:.8rem;">▾</span>
+              </div>
+            </div>
+
+            <div class="mb-5">
+              <label class="form-label">Subject</label>
+              <input type="text" class="form-input" placeholder="Brief subject of your report or enquiry" />
+            </div>
+
+            <div class="mb-5">
+              <label class="form-label">Your Message / Incident Details</label>
+              <textarea class="form-input" placeholder="Describe the incident in as much detail as you're comfortable sharing. All information is encrypted immediately upon submission." rows="6"></textarea>
+            </div>
+
+            <div class="mb-5" style="background:rgba(0,245,255,.03);border:1px solid rgba(0,245,255,.1);padding:1rem 1.2rem;">
+              <div style="display:flex;align-items:flex-start;gap:.75rem;">
+                <span style="font-size:1.1rem;flex-shrink:0;margin-top:.1rem;">🔒</span>
+                <p style="font-size:.83rem;color:#3a6a8a;line-height:1.6;">By submitting, you acknowledge that SecureCyber uses zero-knowledge architecture. We never store decryption keys. Your report is encrypted end-to-end and inaccessible even by SecureCyber staff. Your anonymity is absolute.</p>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">⚡ SUBMIT ENCRYPTED REPORT</button>
+          </form>
+
+          <div id="successMsg" class="success-msg">
+            <p style="font-family:'Orbitron',monospace;font-size:.85rem;color:var(--cyan);letter-spacing:1px;">✓ &nbsp; REPORT ENCRYPTED &amp; SUBMITTED SECURELY</p>
+            <p style="font-size:.82rem;color:#4a9aaa;margin-top:.5rem;">Your anonymity is preserved. Case tracking ID has been generated.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO SIDEBAR -->
+      <div class="lg:col-span-2 flex flex-col gap-4">
+        <div class="info-card fade-in">
+          <span class="info-icon">🌐</span>
+          <div class="info-title">Platform Access</div>
+          <div class="info-body">SecureCyber is a fully digital, anonymized platform. All communications are encrypted and no identifying information is required to submit reports.</div>
+          <div class="info-value">platform.securecyber.in</div>
+        </div>
+        <div class="info-card fade-in">
+          <span class="info-icon">📧</span>
+          <div class="info-title">Secure Enquiries</div>
+          <div class="info-body">For partnership, media, or policy enquiries. All emails are encrypted in transit. No personal data stored beyond what's necessary to respond.</div>
+          <div class="info-value">secure@securecyber.in</div>
+        </div>
+        <div class="info-card fade-in">
+          <span class="info-icon">🇮🇳</span>
+          <div class="info-title">India Cybercrime Helpline</div>
+          <div class="info-body">National Cyber Crime Reporting Portal. For urgent matters requiring immediate law enforcement attention anywhere in India.</div>
+          <div class="info-value">cybercrime.gov.in · Dial 1930</div>
+        </div>
+        <div class="info-card fade-in">
+          <span class="info-icon">⚡</span>
+          <div class="info-title">Response Commitment</div>
+          <div class="info-body">Fraud reports processed by AI engine in real-time. Community support responses within 24 hours. All interactions fully anonymized throughout.</div>
+          <div class="info-value">AI Analysis: Real-time</div>
+        </div>
+        <div style="background:rgba(0,12,35,.8);border:1px solid rgba(0,245,255,.1);padding:1.5rem;" class="fade-in">
+          <div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:3px;color:rgba(0,245,255,.42);margin-bottom:1rem;">FRAUD TYPES WE HANDLE</div>
+          <div class="flex flex-wrap gap-2">
+            <span class="threat-tag">UPI FRAUD</span>
+            <span class="threat-tag">JOB SCAMS</span>
+            <span class="threat-tag">INVESTMENT FRAUD</span>
+            <span class="threat-tag">SEXTORTION</span>
+            <span class="threat-tag">PHISHING</span>
+            <span class="threat-tag">DEEPFAKES</span>
+            <span class="threat-tag">DATA BREACH</span>
+            <span class="threat-tag">DARK WEB</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section style="padding:5rem 1.5rem;background:linear-gradient(135deg,rgba(0,15,45,.78) 0%,rgba(0,5,20,.55) 100%);border-top:1px solid rgba(0,245,255,.07);border-bottom:1px solid rgba(0,245,255,.07);text-align:center;position:relative;z-index:10;">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:200px;background:radial-gradient(ellipse,rgba(0,245,255,.06) 0%,transparent 70%);pointer-events:none;"></div>
+  <div class="max-w-3xl mx-auto relative" style="z-index:1;">
+    <p class="section-label text-center">// INDIA'S CYBER CRISIS DEMANDS ACTION</p>
+    <h2 class="section-title text-center">₹22,845 Crore Lost in 2024.<br><span class="gradient-text">Every Report Helps Fight Back.</span></h2>
+    <p style="font-size:1rem;color:#5a8aaa;max-width:560px;margin:0 auto 2rem;line-height:1.75;">With 22.68 lakh cybercrime incidents reported in 2024 — and actual losses likely 2–3× higher — your anonymous report powers the AI detection that protects the next potential victim.</p>
+    <div class="grid grid-cols-3 gap-4 max-w-md mx-auto">
+      <div style="background:rgba(0,12,35,.8);border:1px solid rgba(0,245,255,.1);padding:1.1rem;text-align:center;">
+        <div style="font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;background:linear-gradient(135deg,#00f5ff,#4db8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">100%</div>
+        <div style="font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:2px;color:#3a7a9a;margin-top:.3rem;">Anonymous</div>
+      </div>
+      <div style="background:rgba(0,12,35,.8);border:1px solid rgba(0,245,255,.1);padding:1.1rem;text-align:center;">
+        <div style="font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;background:linear-gradient(135deg,#00f5ff,#4db8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">AES-256</div>
+        <div style="font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:2px;color:#3a7a9a;margin-top:.3rem;">Encrypted</div>
+      </div>
+      <div style="background:rgba(0,12,35,.8);border:1px solid rgba(0,245,255,.1);padding:1.1rem;text-align:center;">
+        <div style="font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;background:linear-gradient(135deg,#00f5ff,#4db8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">0 Trace</div>
+        <div style="font-family:'Orbitron',monospace;font-size:.5rem;letter-spacing:2px;color:#3a7a9a;margin-top:.3rem;">Ghost Mode</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section style="padding:6rem 1.5rem;position:relative;z-index:10;">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-12">
+      <p class="section-label">// REPORTING PROCESS</p>
+      <h2 class="section-title">How SecureCyber <span class="gradient-text">Works</span></h2>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">
+      <div class="fade-in"><div class="step-box">01</div><div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:1px;color:#d0eaff;margin-bottom:.4rem;">Anonymous Sign-In</div><div style="font-size:.8rem;color:#3a6a8a;line-height:1.5;">Temporary encrypted identity</div></div>
+      <div class="fade-in"><div class="step-box">02</div><div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:1px;color:#d0eaff;margin-bottom:.4rem;">Secure Reporting</div><div style="font-size:.8rem;color:#3a6a8a;line-height:1.5;">Text, audio, or video</div></div>
+      <div class="fade-in"><div class="step-box">03</div><div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:1px;color:#d0eaff;margin-bottom:.4rem;">Evidence Vault</div><div style="font-size:.8rem;color:#3a6a8a;line-height:1.5;">Encrypted in SecureVault</div></div>
+      <div class="fade-in"><div class="step-box">04</div><div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:1px;color:#d0eaff;margin-bottom:.4rem;">AI Analysis</div><div style="font-size:.8rem;color:#3a6a8a;line-height:1.5;">ML finds fraud patterns</div></div>
+      <div class="fade-in"><div class="step-box">05</div><div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:1px;color:#d0eaff;margin-bottom:.4rem;">Community</div><div style="font-size:.8rem;color:#3a6a8a;line-height:1.5;">Anonymous peer support</div></div>
+      <div class="fade-in"><div class="step-box">06</div><div style="font-family:'Orbitron',monospace;font-size:.6rem;letter-spacing:1px;color:#d0eaff;margin-bottom:.4rem;">Status Updates</div><div style="font-size:.8rem;color:#3a6a8a;line-height:1.5;">Track case anonymously</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-4 gap-10 pb-6">
+      <div class="md:col-span-2">
+        <div class="footer-logo">SECURECYBER</div>
+        <div class="footer-tagline">// ANONYMOUS · SAFE · ENCRYPTED</div>
+        <p style="font-size:.88rem;color:#2e5a78;line-height:1.75;max-width:360px;">A next-generation platform for private cyber-fraud reporting. Built on the principle that speaking up should never mean giving up your privacy.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigation</div>
+        <a href="index.html" class="footer-link">Home</a>
+        <a href="about.html" class="footer-link">About</a>
+        <a href="contact.html" class="footer-link">Contact</a>
+        <a href="contact.html" class="footer-link">Report Fraud</a>
+      </div>
+      <div>
+        <div class="footer-heading">Security Stack</div>
+        <span class="footer-link" style="cursor:default;">AES-256 Encryption</span>
+        <span class="footer-link" style="cursor:default;">RSA-4096 Key Exchange</span>
+        <span class="footer-link" style="cursor:default;">Zero-Knowledge Architecture</span>
+        <span class="footer-link" style="cursor:default;">GDPR Compliant</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 SECURECYBER — ALL RIGHTS RESERVED</div>
+      <div class="flex items-center gap-2"><span class="status-dot"></span><span class="footer-copy">ALL SYSTEMS OPERATIONAL</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'ENCRYPTING & TRANSMITTING...';
+    btn.style.opacity = '0.7';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = '✓ REPORT SUBMITTED SECURELY';
+      btn.style.background = 'linear-gradient(135deg,#00cc88,#008866)';
+      btn.style.opacity = '1';
+      document.getElementById('successMsg').classList.add('show');
+      document.getElementById('contactForm').reset();
+    }, 1800);
+  }
+</script>
+</body>
+</html>
