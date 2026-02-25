@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureCyber — Anonymous · Safe · Encrypted</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cyan: #00f5ff;
+      --blue: #0055ff;
+      --dark: #010913;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background-color: var(--dark); font-family: 'Rajdhani', sans-serif; color: #b8d4f0; overflow-x: hidden; }
+
+    /* BG */
+    .cyber-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: linear-gradient(rgba(0,245,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,255,.04) 1px, transparent 1px);
+      background-size: 55px 55px;
+      animation: gridBreath 10s ease-in-out infinite;
+    }
+    @keyframes gridBreath { 0%,100%{opacity:.5} 50%{opacity:1} }
+    .radial-overlay {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 80% 55% at 50% -10%, rgba(0,80,255,.18) 0%, transparent 65%),
+                  radial-gradient(ellipse 45% 35% at 85% 90%, rgba(0,245,255,.07) 0%, transparent 55%);
+    }
+
+    /* NAVBAR */
+    nav { position: fixed; top: 0; width: 100%; z-index: 200; background: rgba(1,9,19,.9); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(0,245,255,.12); animation: navSlide .6s ease forwards; }
+    @keyframes navSlide { from{transform:translateY(-100%);opacity:0} to{transform:translateY(0);opacity:1} }
+    .nav-logo { font-family: 'Orbitron',monospace; font-weight:900; font-size:1.3rem; letter-spacing:3px; background:linear-gradient(90deg,#00f5ff,#0066ff,#00f5ff); background-size:200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:shimmer 4s linear infinite; text-decoration:none; }
+    @keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
+    .nav-link { font-family:'Orbitron',monospace; font-size:.7rem; letter-spacing:2px; color:#7daecf; text-decoration:none; padding:.4rem .8rem; border:1px solid transparent; transition:all .3s; position:relative; }
+    .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:1px; background:var(--cyan); transform:scaleX(0); transition:transform .3s; }
+    .nav-link:hover, .nav-link.active { color:var(--cyan); border-color:rgba(0,245,255,.25); text-shadow:0 0 10px rgba(0,245,255,.6); }
+    .nav-link:hover::after, .nav-link.active::after { transform:scaleX(1); }
+    .nav-cta { font-family:'Orbitron',monospace; font-size:.68rem; letter-spacing:2px; color:#000; background:linear-gradient(135deg,#00f5ff,#0066ff); padding:.42rem 1.1rem; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); transition:all .3s; text-decoration:none; font-weight:700; }
+    .nav-cta:hover { box-shadow:0 0 22px rgba(0,245,255,.7); transform:translateY(-1px); }
+    .mobile-menu { display:none; }
+    .mobile-menu.open { display:flex; }
+    #menu-toggle { display:none; background:none; border:none; cursor:pointer; }
+    @media(max-width:768px) {
+      #menu-toggle { display:block; }
+      .desktop-nav { display:none; }
+      .mobile-menu { flex-direction:column; position:absolute; top:100%; left:0; right:0; background:rgba(1,9,19,.97); border-bottom:1px solid rgba(0,245,255,.15); padding:1.5rem; gap:1rem; }
+    }
+
+    /* HERO */
+    .hero-section { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:8rem 1.5rem 4rem; position:relative; }
+    .scan-line { position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); animation:scanDown 6s linear infinite; opacity:.4; pointer-events:none; }
+    @keyframes scanDown { 0%{top:0;opacity:.8} 90%{opacity:.3} 100%{top:100%;opacity:0} }
+    .hero-badge { font-family:'Share Tech Mono',monospace; font-size:.7rem; letter-spacing:3px; color:var(--cyan); border:1px solid rgba(0,245,255,.3); padding:.35rem 1rem; display:inline-block; margin-bottom:1.8rem; clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); background:rgba(0,245,255,.04); animation:badgePulse 3s ease-in-out infinite; }
+    @keyframes badgePulse { 0%,100%{box-shadow:0 0 8px rgba(0,245,255,.25)} 50%{box-shadow:0 0 20px rgba(0,245,255,.55)} }
+    .hero-title { font-family:'Orbitron',monospace; font-size:clamp(2.4rem,6vw,5.2rem); font-weight:900; line-height:1.1; margin-bottom:1.5rem; }
+    .gradient-text { background:linear-gradient(135deg,#00f5ff 0%,#4db8ff 40%,#0055ff 70%,#00f5ff 100%); background-size:300%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:gradMove 5s ease infinite; }
+    @keyframes gradMove { 0%{background-position:0%} 50%{background-position:100%} 100%{background-position:0%} }
+    .hero-sub { font-size:1.15rem; color:#6a9abf; max-width:600px; line-height:1.75; margin-bottom:2.5rem; }
+    .btn-primary { font-family:'Orbitron',monospace; font-size:.72rem; letter-spacing:2px; color:#000; background:linear-gradient(135deg,#00f5ff,#0066ff); padding:.85rem 2.2rem; display:inline-block; text-decoration:none; font-weight:700; clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition:all .3s; }
+    .btn-primary:hover { box-shadow:0 0 35px rgba(0,245,255,.7); transform:translateY(-2px); }
+    .btn-secondary { font-family:'Orbitron',monospace; font-size:.72rem; letter-spacing:2px; color:var(--cyan); background:transparent; padding:.82rem 2.2rem; display:inline-block; text-decoration:none; font-weight:600; border:1px solid rgba(0,245,255,.4); clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); transition:all .3s; }
+    .btn-secondary:hover { background:rgba(0,245,255,.08); border-color:var(--cyan); box-shadow:0 0 20px rgba(0,245,255,.25); transform:translateY(-2px); }
+    .float-tag { font-family:'Share Tech Mono',monospace; font-size:.65rem; letter-spacing:2px; padding:.3rem .8rem; border:1px solid rgba(0,245,255,.18); background:rgba(0,245,255,.03); color:rgba(0,245,255,.55); white-space:nowrap; animation:floatAnim 6s ease-in-out infinite; }
+    .float-tag:nth-child(2){animation-delay:-2s} .float-tag:nth-child(3){animation-delay:-4s}
+    @keyframes floatAnim { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    /* SECTIONS */
+    section { position:relative; z-index:10; }
+    .section-label { font-family:'Share Tech Mono',monospace; font-size:.66rem; letter-spacing:4px; color:var(--cyan); opacity:.65; margin-bottom:.75rem; }
+    .section-title { font-family:'Orbitron',monospace; font-size:clamp(1.6rem,3.5vw,2.6rem); font-weight:700; color:#e0f2ff; line-height:1.2; margin-bottom:1.2rem; }
+    .section-sub { font-size:1.02rem; color:#5a8aaa; max-width:620px; line-height:1.7; }
+
+    /* STATS */
+    .stats-section { padding:5rem 1.5rem; background:linear-gradient(180deg,rgba(0,20,55,.45) 0%,rgba(0,10,30,.25) 100%); border-top:1px solid rgba(0,245,255,.07); border-bottom:1px solid rgba(0,245,255,.07); }
+    .stat-card { background:rgba(0,15,40,.72); border:1px solid rgba(0,245,255,.11); padding:1.8rem 1.4rem; text-align:center; transition:all .35s ease; clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px)); position:relative; }
+    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); transform:scaleX(0); transition:transform .4s; }
+    .stat-card:hover { border-color:rgba(0,245,255,.38); transform:translateY(-5px); box-shadow:0 10px 40px rgba(0,245,255,.1); }
+    .stat-card:hover::before { transform:scaleX(1); }
+    .stat-number { font-family:'Orbitron',monospace; font-size:clamp(1.5rem,3vw,2.2rem); font-weight:900; background:linear-gradient(135deg,#00f5ff,#4db8ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1.1; margin-bottom:.5rem; }
+    .stat-label { font-family:'Orbitron',monospace; font-size:.6rem; letter-spacing:2px; color:#3a7a9a; text-transform:uppercase; margin-bottom:.4rem; }
+    .stat-desc { font-size:.85rem; color:#4a7a9a; line-height:1.5; }
+
+    /* FEATURES */
+    .features-section { padding:6rem 1.5rem; }
+    .feature-card { background:rgba(0,12,35,.78); border:1px solid rgba(0,245,255,.1); padding:1.8rem; transition:all .35s; position:relative; overflow:hidden; backdrop-filter:blur(8px); }
+    .feature-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--cyan),#0066ff); transform:scaleX(0); transition:transform .4s; }
+    .feature-card:hover { border-color:rgba(0,245,255,.3); transform:translateY(-4px); box-shadow:0 15px 50px rgba(0,245,255,.1); }
+    .feature-card:hover::after { transform:scaleX(1); }
+    .feature-icon { font-size:1.9rem; margin-bottom:1.1rem; display:block; filter:drop-shadow(0 0 8px rgba(0,245,255,.4)); }
+    .feature-title { font-family:'Orbitron',monospace; font-size:.82rem; font-weight:700; letter-spacing:1px; color:#d0eaff; margin-bottom:.7rem; }
+    .feature-body { font-size:.9rem; color:#4a7a9a; line-height:1.65; }
+
+    /* WHY */
+    .why-section { padding:6rem 1.5rem; background:linear-gradient(135deg,rgba(0,15,45,.78) 0%,rgba(0,5,20,.55) 100%); border-top:1px solid rgba(0,245,255,.07); border-bottom:1px solid rgba(0,245,255,.07); }
+    .vs-table { border:1px solid rgba(0,245,255,.12); overflow:hidden; }
+    .vs-header { display:grid; grid-template-columns:1fr 1fr; background:rgba(0,20,55,.8); }
+    .vs-col-bad { padding:1rem 1.5rem; font-family:'Orbitron',monospace; font-size:.7rem; letter-spacing:2px; color:#ff4060; border-right:1px solid rgba(0,245,255,.12); }
+    .vs-col-good { padding:1rem 1.5rem; font-family:'Orbitron',monospace; font-size:.7rem; letter-spacing:2px; color:var(--cyan); }
+    .vs-row { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid rgba(0,245,255,.06); transition:background .2s; }
+    .vs-row:hover { background:rgba(0,245,255,.03); }
+    .vs-cell { padding:.9rem 1.5rem; font-size:.9rem; line-height:1.5; display:flex; align-items:center; gap:.6rem; }
+    .vs-cell.bad { color:#6a4a58; border-right:1px solid rgba(0,245,255,.06); }
+    .vs-cell.good { color:#4aafc0; }
+    .vs-cell.bad::before { content:'✗'; color:#ff4060; flex-shrink:0; }
+    .vs-cell.good::before { content:'✓'; color:var(--cyan); flex-shrink:0; }
+
+    /* CTA */
+    .cta-section { padding:7rem 1.5rem; text-align:center; position:relative; }
+    .cta-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:600px; height:300px; background:radial-gradient(ellipse,rgba(0,245,255,.06) 0%,transparent 70%); pointer-events:none; }
+    .cta-title { font-family:'Orbitron',monospace; font-size:clamp(1.8rem,4vw,3rem); font-weight:900; color:#e0f2ff; margin-bottom:1.2rem; }
+    .cta-sub { font-size:1.05rem; color:#5a8aaa; max-width:540px; margin:0 auto 2.5rem; line-height:1.7; }
+
+    /* FOOTER */
+    footer { background:rgba(0,5,15,.95); border-top:1px solid rgba(0,245,255,.1); padding:3.5rem 1.5rem 2rem; }
+    .footer-logo { font-family:'Orbitron',monospace; font-weight:900; font-size:1.2rem; letter-spacing:3px; background:linear-gradient(90deg,#00f5ff,#0066ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:.6rem; }
+    .footer-tagline { font-family:'Share Tech Mono',monospace; font-size:.7rem; letter-spacing:2px; color:rgba(0,245,255,.35); margin-bottom:1.3rem; }
+    .footer-link { color:#3a6a8a; text-decoration:none; font-size:.88rem; transition:color .2s; display:block; margin-bottom:.5rem; }
+    .footer-link:hover { color:var(--cyan); }
+    .footer-heading { font-family:'Orbitron',monospace; font-size:.62rem; letter-spacing:3px; color:rgba(0,245,255,.45); margin-bottom:1.1rem; text-transform:uppercase; }
+    .footer-bottom { border-top:1px solid rgba(0,245,255,.07); padding-top:1.5rem; margin-top:2.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.75rem; }
+    .footer-copy { font-family:'Share Tech Mono',monospace; font-size:.68rem; color:rgba(0,245,255,.22); letter-spacing:1px; }
+    .status-dot { width:7px; height:7px; border-radius:50%; background:#00f5ff; animation:statusPulse 2s ease-in-out infinite; display:inline-block; }
+    @keyframes statusPulse { 0%,100%{box-shadow:0 0 4px #00f5ff} 50%{box-shadow:0 0 12px #00f5ff,0 0 20px rgba(0,245,255,.5)} }
+
+    /* FADE IN */
+    .fade-in { opacity:0; transform:translateY(26px); animation:fadeUp .7s ease forwards; }
+    .fade-in:nth-child(1){animation-delay:.05s} .fade-in:nth-child(2){animation-delay:.15s}
+    .fade-in:nth-child(3){animation-delay:.25s} .fade-in:nth-child(4){animation-delay:.35s}
+    .fade-in:nth-child(5){animation-delay:.45s} .fade-in:nth-child(6){animation-delay:.55s}
+    .fade-in:nth-child(7){animation-delay:.65s} .fade-in:nth-child(8){animation-delay:.75s}
+    @keyframes fadeUp { to{opacity:1;transform:translateY(0)} }
+    .hero-fade { opacity:0; animation:fadeUp .9s ease forwards; }
+    .hero-fade:nth-child(1){animation-delay:.2s} .hero-fade:nth-child(2){animation-delay:.45s}
+    .hero-fade:nth-child(3){animation-delay:.65s} .hero-fade:nth-child(4){animation-delay:.85s}
+    .hero-fade:nth-child(5){animation-delay:1.05s}
+  </style>
+</head>
+<body>
+
+<div class="cyber-grid"></div>
+<div class="radial-overlay"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+    <a href="index.html" class="nav-logo">SECURECYBER</a>
+    <div class="desktop-nav flex items-center gap-1">
+      <a href="index.html" class="nav-link active">HOME</a>
+      <a href="about.html" class="nav-link">ABOUT</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+      <a href="contact.html" class="nav-cta ml-4">REPORT FRAUD</a>
+    </div>
+    <button id="menu-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open')" aria-label="Menu">
+      <svg width="24" height="24" fill="none" stroke="#00f5ff" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="mobile-nav" class="mobile-menu">
+    <a href="index.html" class="nav-link active">HOME</a>
+    <a href="about.html" class="nav-link">ABOUT</a>
+    <a href="contact.html" class="nav-link">CONTACT</a>
+    <a href="contact.html" class="nav-cta self-start mt-2">REPORT FRAUD</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-section">
+  <div class="scan-line"></div>
+  <div class="max-w-6xl mx-auto w-full">
+    <div class="grid lg:grid-cols-2 gap-14 items-center">
+      <div>
+        <div class="hero-fade"><span class="hero-badge">// NEXT-GEN CYBER FRAUD PLATFORM</span></div>
+        <div class="hero-fade">
+          <h1 class="hero-title">
+            <span class="gradient-text">Anonymous.</span><br>
+            <span class="gradient-text">Safe.</span><br>
+            <span class="gradient-text">Encrypted.</span>
+          </h1>
+        </div>
+        <div class="hero-fade">
+          <p class="hero-sub">A next-generation platform for private cyber-fraud reporting and secure social interaction. Built for those who demand absolute privacy in an increasingly vulnerable digital world.</p>
+        </div>
+        <div class="hero-fade flex flex-wrap gap-4 mb-6">
+          <a href="about.html" class="btn-primary">EXPLORE PLATFORM</a>
+          <a href="contact.html" class="btn-secondary">REPORT NOW</a>
+        </div>
+        <div class="hero-fade flex flex-wrap gap-3">
+          <span class="float-tag">RSA-4096</span>
+          <span class="float-tag">ZERO-KNOWLEDGE</span>
+          <span class="float-tag">GHOST MODE</span>
+        </div>
+      </div>
+      <div class="hero-fade hidden lg:grid grid-cols-2 gap-4">
+        <div class="feature-card fade-in">
+          <span class="feature-icon">🛡️</span>
+          <div class="feature-title">AES-256 Encryption</div>
+          <div class="feature-body">Military-grade encryption adopted by the US federal government &amp; NSA.</div>
+        </div>
+        <div class="feature-card fade-in">
+          <span class="feature-icon">👻</span>
+          <div class="feature-title">Ghost Mode</div>
+          <div class="feature-body">Zero metadata — no timestamps, no session data, absolutely no trace.</div>
+        </div>
+        <div class="feature-card fade-in">
+          <span class="feature-icon">🤖</span>
+          <div class="feature-title">AI Fraud Detection</div>
+          <div class="feature-body">ML algorithms scan millions of reports to detect emerging threats instantly.</div>
+        </div>
+        <div class="feature-card fade-in">
+          <span class="feature-icon">🔑</span>
+          <div class="feature-title">Zero-Knowledge</div>
+          <div class="feature-body">Even SecureCyber cannot access your data. You hold the keys — always.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <p class="section-label">// THREAT INTELLIGENCE — INDIA 2024</p>
+      <h2 class="section-title">The Scale of India's <span class="gradient-text">Cyber Crisis</span></h2>
+      <p class="section-sub mx-auto text-center">22.68 lakh cybercrime incidents were reported in 2024 alone — actual losses are likely 2–3× higher due to severe underreporting across the nation.</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="stat-card fade-in">
+        <div class="stat-number">22.68L</div>
+        <div class="stat-label">Cybercrime Incidents</div>
+        <div class="stat-desc">Reported in 2024, up from 10.29 lakh in 2022</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">₹22,845Cr</div>
+        <div class="stat-label">Financial Losses</div>
+        <div class="stat-desc">206% year-on-year increase in reported losses</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">₹17,400Cr</div>
+        <div class="stat-label">Investment Scams</div>
+        <div class="stat-desc">Lost to fake trading apps &amp; platforms in 2024</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">₹485Cr</div>
+        <div class="stat-label">UPI Fraud</div>
+        <div class="stat-desc">Total lost to UPI fraud in FY2024 alone</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">86%</div>
+        <div class="stat-label">Households Online</div>
+        <div class="stat-desc">Indian households now connected to the internet</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">71,500</div>
+        <div class="stat-label">2025 Projections</div>
+        <div class="stat-desc">Estimated online fraud incidents forecast for 2025</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">56%</div>
+        <div class="stat-label">Victims Stay Silent</div>
+        <div class="stat-desc">Of cybercrime victims never report the incident</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">2.3×</div>
+        <div class="stat-label">Hidden Losses</div>
+        <div class="stat-desc">Actual fraud losses vs. officially reported figures</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="section-label">// CORE PLATFORM FEATURES</p>
+      <h2 class="section-title">Built for <span class="gradient-text">Absolute Privacy</span></h2>
+      <p class="section-sub mx-auto text-center">Every technical decision prioritizes user anonymity while maintaining the integrity needed for effective fraud reporting and community protection.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="feature-card fade-in">
+        <span class="feature-icon">🕵️</span>
+        <div class="feature-title">Anonymous Posting System</div>
+        <div class="feature-body">Report fraud incidents without storing any identifying information. Your identity is never captured, logged, or retained in our systems.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">💬</span>
+        <div class="feature-title">End-to-End Encrypted Chat</div>
+        <div class="feature-body">Military-grade AES-256 and RSA encryption ensures conversations remain completely private between participants at all times.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">🎭</span>
+        <div class="feature-title">Auto-Data Masking</div>
+        <div class="feature-body">Sensitive information is automatically detected and masked to prevent accidental disclosure of personal details in any report.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">📊</span>
+        <div class="feature-title">Fraud Case Tracker</div>
+        <div class="feature-body">Monitor your report's progress through the system without ever revealing your identity to investigators or authorities.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">🌑</span>
+        <div class="feature-title">Dark Web Scanner</div>
+        <div class="feature-body">Continuous monitoring of dark web marketplaces and forums to detect when your information appears in compromised databases.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">🔐</span>
+        <div class="feature-title">SecureVault Storage</div>
+        <div class="feature-body">Encrypted storage for screenshots, recordings, and evidence with military-grade protection and zero-knowledge architecture.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">🎤</span>
+        <div class="feature-title">Voice Masking Technology</div>
+        <div class="feature-body">Real-time voice obscuring in audio rooms — share experiences verbally while maintaining complete anonymity.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <span class="feature-icon">🏛️</span>
+        <div class="feature-title">Report-to-Gov Gateway</div>
+        <div class="feature-body">Forward verified reports directly to law enforcement and regulatory authorities without ever revealing your identity to officials.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY SECURECYBER -->
+<section class="why-section">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="section-label">// COMPETITIVE ADVANTAGE</p>
+      <h2 class="section-title">SecureCyber vs. <span class="gradient-text">Traditional Reporting</span></h2>
+      <p class="section-sub mx-auto text-center">Traditional systems put victims at even greater risk. We built something fundamentally different — privacy by design, not as an afterthought.</p>
+    </div>
+    <div class="vs-table">
+      <div class="vs-header">
+        <div class="vs-col-bad">⚠ TRADITIONAL SYSTEMS</div>
+        <div class="vs-col-good">⚡ SECURECYBER</div>
+      </div>
+      <div class="vs-row"><div class="vs-cell bad">Requires full identity verification</div><div class="vs-cell good">100% anonymous — no identity required</div></div>
+      <div class="vs-row"><div class="vs-cell bad">Data stored in vulnerable government databases</div><div class="vs-cell good">Military-grade encryption — data secure even from us</div></div>
+      <div class="vs-row"><div class="vs-cell bad">Slow bureaucratic processes (weeks to months)</div><div class="vs-cell good">Real-time reporting via text, audio, or video</div></div>
+      <div class="vs-row"><div class="vs-cell bad">No feedback to victims on case progress</div><div class="vs-cell good">Instant case tracking without revealing identity</div></div>
+      <div class="vs-row"><div class="vs-cell bad">No community support or peer connection</div><div class="vs-cell good">Community support from other victims</div></div>
+      <div class="vs-row"><div class="vs-cell bad">Reports often get lost or ignored</div><div class="vs-cell good">AI-powered pattern detection and categorization</div></div>
+      <div class="vs-row"><div class="vs-cell bad">No protection against data exploitation</div><div class="vs-cell good">Ghost Mode — zero metadata retention</div></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-10">
+      <div class="feature-card text-center fade-in p-4"><div class="text-2xl mb-2">🔒</div><div class="feature-title" style="font-size:.72rem">Privacy-First Design</div><div class="feature-body" style="font-size:.82rem">Built for anonymity, not as an afterthought.</div></div>
+      <div class="feature-card text-center fade-in p-4"><div class="text-2xl mb-2">🤝</div><div class="feature-title" style="font-size:.72rem">Community-Driven</div><div class="feature-body" style="font-size:.82rem">Victims support each other while staying anonymous.</div></div>
+      <div class="feature-card text-center fade-in p-4"><div class="text-2xl mb-2">⚡</div><div class="feature-title" style="font-size:.72rem">Technology-Enabled</div><div class="feature-body" style="font-size:.82rem">AI and automation replace bureaucracy.</div></div>
+      <div class="feature-card text-center fade-in p-4"><div class="text-2xl mb-2">🎯</div><div class="feature-title" style="font-size:.72rem">Victim-Centric</div><div class="feature-body" style="font-size:.82rem">Designed around victim needs, not government convenience.</div></div>
+      <div class="feature-card text-center fade-in p-4"><div class="text-2xl mb-2">📡</div><div class="feature-title" style="font-size:.72rem">Transparent</div><div class="feature-body" style="font-size:.82rem">Victims always know their case status.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="max-w-3xl mx-auto relative z-10">
+    <p class="section-label text-center">// YOUR VOICE. YOUR PRIVACY. YOUR SAFETY.</p>
+    <h2 class="cta-title">Speak Up Without<br><span class="gradient-text">Giving Up Your Privacy</span></h2>
+    <p class="cta-sub">Join us in revolutionizing how the world responds to cybercrime — without compromising the privacy of those who speak up. Reporting fraud shouldn't put you at greater risk.</p>
+    <div class="flex flex-wrap justify-center gap-5">
+      <a href="contact.html" class="btn-primary">REPORT FRAUD NOW</a>
+      <a href="about.html" class="btn-secondary">LEARN HOW IT WORKS</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-4 gap-10 pb-6">
+      <div class="md:col-span-2">
+        <div class="footer-logo">SECURECYBER</div>
+        <div class="footer-tagline">// ANONYMOUS · SAFE · ENCRYPTED</div>
+        <p style="font-size:.88rem;color:#2e5a78;line-height:1.75;max-width:360px;">A next-generation platform for private cyber-fraud reporting. Built on the principle that speaking up should never mean giving up your privacy.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigation</div>
+        <a href="index.html" class="footer-link">Home</a>
+        <a href="about.html" class="footer-link">About</a>
+        <a href="contact.html" class="footer-link">Contact</a>
+        <a href="contact.html" class="footer-link">Report Fraud</a>
+      </div>
+      <div>
+        <div class="footer-heading">Security Stack</div>
+        <span class="footer-link" style="cursor:default;">AES-256 Encryption</span>
+        <span class="footer-link" style="cursor:default;">RSA-4096 Key Exchange</span>
+        <span class="footer-link" style="cursor:default;">Zero-Knowledge Architecture</span>
+        <span class="footer-link" style="cursor:default;">GDPR Compliant</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 SECURECYBER — ALL RIGHTS RESERVED</div>
+      <div class="flex items-center gap-2"><span class="status-dot"></span><span class="footer-copy">ALL SYSTEMS OPERATIONAL</span></div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
